@@ -1,0 +1,21 @@
+{
+	"life":
+	{
+		"area":
+		{
+			"width": 30,
+			"height": 30
+		},
+		"cells":
+		{
+			"clawn":
+			{
+				"count": 70
+			},
+			"shark":
+			{
+				"count": 50
+			}
+		}
+	}
+}
