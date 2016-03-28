@@ -6,7 +6,7 @@ import (
     //"./strategy"
     "time"
     "syscall"
-    "../log"
+    "./log"
     //"fmt"
 )
 
