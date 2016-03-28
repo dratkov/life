@@ -11,19 +11,27 @@ type Area struct {
 	width, height uint
 	celler []cell.Celler
 	live_cell_count uint
+	max_cell_id uint
 }
 
 type Areaer interface {
     GetCell( int, int ) cell.Celler
     GetHeight() uint
     GetWidth() uint
+	GetMaxCellID() uint
+	SetMaxCellID(uint)
 }
 
-func New( width, height uint ) Area {
-	new_area := Area{ width: width, height: height }
-	new_area.celler = make( []cell.Celler, height * width )
+var area_singletone *Area = nil
 
-	return new_area
+func New( width, height uint ) *Area {
+	if area_singletone != nil {
+		return area_singletone
+	}
+	area_singletone = &Area{ width: width, height: height }
+	area_singletone.celler = make( []cell.Celler, height * width )
+
+	return area_singletone
 }
 
 func ( a *Area ) AddCell( c cell.Celler ) {
@@ -48,6 +56,14 @@ func ( a *Area ) GetWidth() uint {
 
 func ( a *Area ) GetHeight() uint {
 	return a.height
+}
+
+func (a *Area) GetMaxCellID() uint {
+	return a.max_cell_id
+}
+
+func (a *Area) SetMaxCellID(max_cell_id uint) {
+	a.max_cell_id = max_cell_id
 }
 
 func ( a *Area ) GetCell( x int, y int ) cell.Celler {

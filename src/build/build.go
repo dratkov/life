@@ -13,10 +13,7 @@ import (
 )
 
 type Build struct {
-    area area.Area
-    //cell []cell.Cell
-    //clawn []clawn.Clawn
-
+    area *area.Area
 }
 
 type Builder interface {
@@ -34,9 +31,9 @@ func ( b *Build ) BuildArea( width, height uint ) {
 }
 
 func ( b *Build ) GetArea() *area.Area {
-    return &b.area
+    return b.area
     a := b.area
-    return &a
+    return a
 }
 
 func ( b *Build ) BuildCell( c reflect.Type, count int ) {
@@ -63,6 +60,9 @@ func ( b *Build ) BuildCell( c reflect.Type, count int ) {
             cell_general.SetY( free_cell.GetY() )
             cell_general.Init()
             cell_general.SetStrategy( strategy.New( move_strategy ) )
+            max_cell_id := area.GetMaxCellID()
+            cell_general.SetID(max_cell_id)
+            area.SetMaxCellID(max_cell_id + 1)
             cell_general.SetArea( area )
             area.AddCell( cell_general )
         }

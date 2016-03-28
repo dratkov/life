@@ -19,6 +19,8 @@ type Celler interface {
     GetY() int
     SetX( int )
     SetY( int )
+    SetID(uint)
+    GetID() uint
     String2Console() string
     New( int, int ) Celler
     IsEmptyCell( Celler ) bool
@@ -48,6 +50,7 @@ type Cell struct {
     strategy strategy.Strategy
     area Areaer
     is_done_action bool
+    id uint
 }
 
 func New( x int, y int ) Cell {
@@ -81,6 +84,14 @@ func ( c *Cell ) GetY() int {
 
 func ( c *Cell ) SetX( x int ) {
     c.x = x
+}
+
+func ( c *Cell ) GetID() uint {
+    return c.id
+}
+
+func ( c *Cell ) SetID( id uint ) {
+    c.id = id
 }
 
 func ( c *Cell ) SetArea( a Areaer ) {

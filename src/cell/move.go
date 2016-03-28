@@ -29,7 +29,7 @@ func ( c *Cell ) MoveLeft() bool {
     }
     target_y := c.GetY()
     target_cell := area.GetCell( target_x, target_y )
-    if target_cell.IsEmptyCell( target_cell ) == true {
+    if target_cell.IsEmptyCell( target_cell ) {
         c.DoMove( target_x, target_y )
         return true
     }
@@ -45,7 +45,7 @@ func ( c *Cell ) MoveUp() bool {
     }
     target_x := c.GetX()
     target_cell := area.GetCell( target_x, target_y )
-    if target_cell.IsEmptyCell( target_cell ) == true {
+    if target_cell.IsEmptyCell( target_cell ) {
         c.DoMove( target_x, target_y )
         return true
     }
@@ -61,7 +61,7 @@ func ( c *Cell ) MoveRight() bool {
     }
     target_y := c.GetY()
     target_cell := area.GetCell( target_x, target_y )
-    if target_cell.IsEmptyCell( target_cell ) == true {
+    if target_cell.IsEmptyCell( target_cell ) {
         c.DoMove( target_x, target_y )
         return true
     }
@@ -77,7 +77,7 @@ func ( c *Cell ) MoveDawn() bool {
     }
     target_x := c.GetX()
     target_cell := area.GetCell( target_x, target_y )
-    if target_cell.IsEmptyCell( target_cell ) == true {
+    if target_cell.IsEmptyCell( target_cell ) {
         c.DoMove( target_x, target_y )
         return true
     }
