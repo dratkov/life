@@ -3,6 +3,7 @@ package shark
 import (
 	"../../../"
 	"fmt"
+	"../../../../history/move"
 )
 
 const (
@@ -37,7 +38,27 @@ func ( s *Shark ) Init() {
 func ( s *Shark ) DoAction( a cell.Areaer ) {    
 	s.IncrementLiveCicle()
     s.Move()
-    //s.Move()
+
+	last_move := move.GetLast(s)
+    s.Move()
+	last_move_2 := move.GetLast(s)
+	if last_move != nil && last_move_2 != nil &&
+			last_move.GetFromX() == last_move_2.GetToX() &&
+			last_move.GetFromY() == last_move_2.GetToY() {
+		if last_move_2.GetToY() == last_move_2.GetFromY() {
+			if last_move_2.GetToX() < last_move_2.GetFromX() {
+				s.MoveRight()
+			} else {
+				s.MoveLeft()
+			}
+		} else {
+			if last_move_2.GetToY() < last_move_2.GetFromY() {
+				s.MoveDawn()
+			} else {
+				s.MoveUp()
+			}
+		}
+	}
 }
 
 func ( s *Shark ) String2Console() string {

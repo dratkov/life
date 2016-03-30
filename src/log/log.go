@@ -10,7 +10,8 @@ type Log struct {
     file_handler *os.File
 }
 
-func (l *Log) Write( text string )  {
+func Write( text string )  {
+    l := New()
     if l.file_handler == nil {
         f, err := os.OpenFile(l.filename, os.O_RDWR | os.O_APPEND | os.O_CREATE, 0666)
         if err != nil {
