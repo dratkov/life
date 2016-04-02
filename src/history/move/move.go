@@ -1,13 +1,35 @@
 package move
 
 import (
-    "time"
     "../../history"
 )
 
 type Move struct {
+    history.History
     from_x, from_y, to_x, to_y int
-    t time.Time
+}
+
+type Mover interface {
+    GetFromX() int
+    GetFromY() int
+    GetToX() int
+    GetToY() int
+}
+
+type History struct {
+    cells map[uint][]Mover
+}
+
+var actions map[uint][]Mover
+var max_cell_actions int = 10
+
+func GetLast(c history.Celler) Mover {
+    cell_history := actions[c.GetID()]
+    if cell_history == nil || len(cell_history) == 0 {
+        return nil
+    }
+
+    return cell_history[len(cell_history)-1]
 }
 
 func (m *Move) SetFromX(from_x int) {
@@ -42,29 +64,27 @@ func (m *Move) GetToY() int {
     return m.to_y
 }
 
-func (m *Move) SetTime(t time.Time) {
-    m.t = t
+func Undo(c history.Celler) {
+
 }
 
-func (m *Move) GetTime() time.Time {
-    return m.t
-}
-
-func (m *Move) Store(c history.Celler) {
-    history.Store(c, m)
-}
-
-func GetLast(c history.Celler) history.Historyer {
-    return history.GetLast(c)
-}
-
-func New(from_x, from_y, to_x, to_y int) *Move {
-    m := &Move{}
+func New(c history.Celler, from_x, from_y, to_x, to_y int) *Move {
+    if actions == nil {
+        actions = make(map[uint][]Mover)
+    }
+    h := history.New(c)
+    m := &Move{*h, 0, 0, 0, 0}
     m.SetFromX(from_x)
     m.SetFromY(from_y)
     m.SetToX(to_x)
     m.SetToY(to_y)
-    m.SetTime(time.Now())
+
+    cell_actions := actions[c.GetID()]
+    if cell_actions != nil && len(cell_actions) == max_cell_actions {
+        cell_actions = cell_actions[1:]
+    }
+    cell_actions = append(cell_actions, m)
+    actions[c.GetID()] = cell_actions
 
     return m
 }

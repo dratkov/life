@@ -39,20 +39,20 @@ func ( s *Shark ) DoAction( a cell.Areaer ) {
 	s.IncrementLiveCicle()
     s.Move()
 
-	last_move := move.GetLast(s)
+	history_first_step := move.GetLast(s)
     s.Move()
-	last_move_2 := move.GetLast(s)
-	if last_move != nil && last_move_2 != nil &&
-			last_move.GetFromX() == last_move_2.GetToX() &&
-			last_move.GetFromY() == last_move_2.GetToY() {
-		if last_move_2.GetToY() == last_move_2.GetFromY() {
-			if last_move_2.GetToX() < last_move_2.GetFromX() {
+	history_second_step := move.GetLast(s)
+	if history_first_step != nil && history_second_step != nil &&
+	history_first_step.GetFromX() == history_second_step.GetToX() &&
+	history_first_step.GetFromY() == history_second_step.GetToY() {
+		if history_second_step.GetFromY() == history_second_step.GetToY() {
+			if history_second_step.GetToX() < history_second_step.GetFromX() {
 				s.MoveRight()
 			} else {
 				s.MoveLeft()
 			}
 		} else {
-			if last_move_2.GetToY() < last_move_2.GetFromY() {
+			if history_second_step.GetToY() < history_second_step.GetFromY() {
 				s.MoveDawn()
 			} else {
 				s.MoveUp()

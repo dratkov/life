@@ -20,8 +20,7 @@ func ( c *Cell ) DoMove( target_x, target_y int ) {
     c.SetY( target_y )
     target_cell.SetX( x )
     target_cell.SetY( y )
-    move_history := move.New(x, y, target_x, target_y)
-    move_history.Store(c)
+    move.New(c, x, y, target_x, target_y)
 }
 
 func ( c *Cell ) MoveLeft() bool {
