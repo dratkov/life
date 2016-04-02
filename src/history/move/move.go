@@ -73,7 +73,8 @@ func New(c history.Celler, from_x, from_y, to_x, to_y int) *Move {
         actions = make(map[uint][]Mover)
     }
     h := history.New(c)
-    m := &Move{*h, 0, 0, 0, 0}
+    m := new(Move)
+    m.History = *h
     m.SetFromX(from_x)
     m.SetFromY(from_y)
     m.SetToX(to_x)

@@ -9,7 +9,6 @@ import (
     "../../../cell/fish/clawn"
     "../../../cell/fish/predator/shark"
 	//"../../../area"
-	"reflect"
 )
 
 type JSON struct {
@@ -59,14 +58,12 @@ func ( jsontype *JSON ) CheckFile() bool {
 func ( jsontype *JSON ) BuildAreaAndCells( b build.Builder ) {
     b.BuildArea( jsontype.Life.Area.Width, jsontype.Life.Area.Height )
     //for i := 0; i < jsontype.Life.Cells.Clawn.Count; i++ {
-    c := clawn.Clawn{}
-    b.BuildCell( reflect.TypeOf( c ), jsontype.Life.Cells.Clawn.Count )
+    b.BuildCell( clawn.Clawn{}, jsontype.Life.Cells.Clawn.Count )
     //b.BuildCellClawn( jsontype.Life.Cells.Clawn.Count )
 	//}
     //for i := 0; i < jsontype.Life.Cells.Shark.Count; i++ {
     	//b.BuildCell( &shark.Shark{}, 1 )
-    s := shark.Shark{}
-    b.BuildCell( reflect.TypeOf( s ), jsontype.Life.Cells.Shark.Count )
+    b.BuildCell( shark.Shark{}, jsontype.Life.Cells.Shark.Count )
     //b.BuildCellShark( jsontype.Life.Cells.Shark.Count )
 	//}
 }

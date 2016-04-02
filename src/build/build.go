@@ -6,7 +6,7 @@ import (
     "../cell/fish/clawn"
     "../cell/fish/predator/shark"
     //"fmt"
-    "reflect"
+    //"reflect"
     "../strategy"
     "../strategy/move/random"
     "../strategy/move/line"
@@ -18,7 +18,7 @@ type Build struct {
 
 type Builder interface {
     BuildArea( uint, uint )
-    BuildCell( reflect.Type, int )
+    BuildCell( interface{}, int )
 }
 
 func New() Build {
@@ -27,6 +27,7 @@ func New() Build {
 
 func ( b *Build ) BuildArea( width, height uint ) {
     b.area = area.New( width, height )
+    cell.SetArea(b.area)
     b.FillArea()
 }
 
@@ -36,34 +37,26 @@ func ( b *Build ) GetArea() *area.Area {
     return a
 }
 
-func ( b *Build ) BuildCell( c reflect.Type, count int ) {
+func ( b *Build ) BuildCell( c interface{}, count int ) {
     area := b.GetArea()
     for i := 0; i < count; i++ {
         var free_cell = area.GetRandFreeCell()
         if free_cell != nil {
-            cellPtr := reflect.New( c )
             var cell_general cell.Celler
             var move_strategy strategy.MoveStrateger
-            switch cellPtr.Elem().Interface().(type) {
+            x, y := free_cell.GetX(), free_cell.GetY()
+            switch c.(type) {
                 case clawn.Clawn:
-                    r := cellPtr.Elem().Interface().(clawn.Clawn)
-                    cell_general = &r
+                    cell_general = clawn.New(x, y)
                     ms := random.New()
                     move_strategy = &ms
                 case shark.Shark:
-                    r := cellPtr.Elem().Interface().(shark.Shark)
-                    cell_general = &r
+                    cell_general = shark.New(x, y)
                     ms := line.New( area.GetWidth() )
                     move_strategy = &ms
             }
-            cell_general.SetX( free_cell.GetX() )
-            cell_general.SetY( free_cell.GetY() )
             cell_general.Init()
             cell_general.SetStrategy( strategy.New( move_strategy ) )
-            max_cell_id := area.GetMaxCellID()
-            cell_general.SetID(max_cell_id)
-            area.SetMaxCellID(max_cell_id + 1)
-            cell_general.SetArea( area )
             area.AddCell( cell_general )
         }
     }

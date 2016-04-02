@@ -17,8 +17,8 @@ type Shark struct {
 	cell.Cell
 }
 
-func New( x int, y int ) Shark {
-	s := Shark{ cell.New( x, y ) }
+func New( x int, y int ) *Shark {
+	s := &Shark{ cell.New( x, y ) }
 
 	return s
 }

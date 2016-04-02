@@ -7,7 +7,6 @@ import (
 	//"../cell"
 	//"fmt"
 	"./file/json"
-	"reflect"
 )
 
 type Input struct {
@@ -41,6 +40,6 @@ func ( in *Input ) BuildArea( width, height uint ) {
 	in.build.BuildArea( width, height )
 }
 
-func ( in *Input ) BuildCell( cell reflect.Type, count int ) {
+func ( in *Input ) BuildCell( cell interface{}, count int ) {
 	in.build.BuildCell( cell, count )
 }

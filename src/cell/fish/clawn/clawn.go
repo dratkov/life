@@ -17,8 +17,8 @@ type Clawn struct {
 	cell.Cell
 }
 
-func New( x int, y int ) Clawn {
-	c := Clawn{ cell.New( x, y ) }
+func New( x int, y int ) *Clawn {
+	c := &Clawn{ cell.New( x, y ) }
 
 	return c
 }

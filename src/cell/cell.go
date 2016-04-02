@@ -30,8 +30,7 @@ type Celler interface {
     GetLiveCicle() int
     Init()
     SetStrategy( strategy.Strategy )
-    SetArea(Areaer)
-    GetArea() Areaer
+    //GetArea() Areaer
     GetIsDoneAction() bool
     SetIsDoneAction(bool)
 }
@@ -40,6 +39,8 @@ type Areaer interface {
     GetCell( int, int ) Celler
     GetHeight() uint
     GetWidth() uint
+    GetMaxCellID() uint
+    SetMaxCellID(uint)
 }
 
 type Cell struct {
@@ -48,7 +49,6 @@ type Cell struct {
     is_dead bool
     console_cell_sign string
     strategy strategy.Strategy
-    area Areaer
     is_done_action bool
     id uint
 }
@@ -57,6 +57,9 @@ func New( x int, y int ) Cell {
     c := Cell{ x: x, y: y }
     c.SetIsDead( false )
     c.SetConsoleCellSign( StringConsoleCell )
+    max_cell_id := area.GetMaxCellID()
+    c.SetID(max_cell_id)
+    //area.SetMaxCellID(max_cell_id + 1)
  
     return c
 }
@@ -73,6 +76,8 @@ func ( c *Cell ) Init() {
     c.SetConsoleCellSign( StringConsoleCell )
     c.SetIsDoneAction(false)
 }
+
+var area Areaer = nil
 
 func ( c *Cell ) GetX() int {
     return c.x
@@ -94,8 +99,8 @@ func ( c *Cell ) SetID( id uint ) {
     c.id = id
 }
 
-func ( c *Cell ) SetArea( a Areaer ) {
-    c.area = a
+func SetArea( a Areaer ) {
+    area = a
 }
 
 func (c *Cell) SetIsDoneAction( is_done bool )  {
@@ -106,8 +111,8 @@ func (c *Cell) GetIsDoneAction() bool {
     return c.is_done_action
 }
 
-func (c *Cell) GetArea() Areaer {
-    return c.area
+func GetArea() Areaer {
+    return area
 }
 
 func ( c *Cell ) GetStrategy() strategy.Strategy {
