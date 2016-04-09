@@ -128,6 +128,9 @@ func ( c *Cell ) SetY( y int ) {
 }
 
 func ( c *Cell ) IncrementLiveCicle() {
+    if c.GetMaxLiveCicle() < 0 {
+        return
+    }
     if c.GetLiveCicle() == c.GetMaxLiveCicle() {
         c.SetIsDead( true )
         return

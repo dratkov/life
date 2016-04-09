@@ -37,7 +37,7 @@ func ( s *Shark ) Init() {
 
 func ( s *Shark ) DoAction( a cell.Areaer ) {    
 	s.IncrementLiveCicle()
-    s.Move()
+	s.Move()
 
 	history_first_step := move.GetLast(s)
     s.Move()

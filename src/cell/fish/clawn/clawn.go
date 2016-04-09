@@ -37,6 +37,7 @@ func ( c *Clawn ) Init() {
 
 func ( c *Clawn ) DoAction( a cell.Areaer ) {
 	c.IncrementLiveCicle()
+	//c.Cell.DoAction(a, c)
 	c.Move()
 	/*x := c.GetX()
 	if x > 0 {
