@@ -16,20 +16,22 @@ type Mover interface {
     GetToY() int
 }
 
-type History struct {
-    cells map[uint][]Mover
-}
-
-var actions map[uint][]Mover
-var max_cell_actions int = 10
-
 func GetLast(c history.Celler) Mover {
-    cell_history := actions[c.GetID()]
-    if cell_history == nil || len(cell_history) == 0 {
+    history := history.GetCellActions(c)
+    if history == nil {
         return nil
     }
+    idx := len(history) - 1
+    for idx >= 0 {
+        h := history[idx]
+        switch h.(type) {
+            case Mover:
+                return h.(Mover)
+        }
+        idx--
+    }
 
-    return cell_history[len(cell_history)-1]
+    return nil
 }
 
 func (m *Move) SetFromX(from_x int) {
@@ -64,14 +66,7 @@ func (m *Move) GetToY() int {
     return m.to_y
 }
 
-func Undo(c history.Celler) {
-
-}
-
 func New(c history.Celler, from_x, from_y, to_x, to_y int) *Move {
-    if actions == nil {
-        actions = make(map[uint][]Mover)
-    }
     h := history.New(c)
     m := new(Move)
     m.History = *h
@@ -80,12 +75,7 @@ func New(c history.Celler, from_x, from_y, to_x, to_y int) *Move {
     m.SetToX(to_x)
     m.SetToY(to_y)
 
-    cell_actions := actions[c.GetID()]
-    if cell_actions != nil && len(cell_actions) == max_cell_actions {
-        cell_actions = cell_actions[1:]
-    }
-    cell_actions = append(cell_actions, m)
-    actions[c.GetID()] = cell_actions
+    history.AppendAction(m, c)
 
     return m
 }

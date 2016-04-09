@@ -4,6 +4,7 @@ import (
 	"../cell"
 	"math/rand"
 	"time"
+	"./../history"
 	//"fmt"
 )
 
@@ -86,6 +87,7 @@ func ( a *Area ) DeleteCell( to_delete_cell cell.Celler ) {
 			a.celler[ idx ] = &new_cell
 			a.SetLiveCellCount( a.GetLiveCellCount() - 1 )
 		}
+		history.DeleteActions(c)
 	}
 }
 

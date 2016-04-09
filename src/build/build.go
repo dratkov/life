@@ -6,7 +6,6 @@ import (
     "../cell/fish/clawn"
     "../cell/fish/predator/shark"
     //"fmt"
-    //"reflect"
     "../strategy"
     "../strategy/move/random"
     "../strategy/move/line"
