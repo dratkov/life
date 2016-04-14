@@ -13,11 +13,11 @@ type Console struct {
     
 }
 
-func New() Console {
-    return Console{}
+func New() *Console {
+    return &Console{}
 }
 
-func ( c *Console ) CheckInput() bool {
+func ( c *Console ) IsSourceInit() bool {
     return len( os.Args ) == 1
 }
 
@@ -56,4 +56,8 @@ func ( c *Console ) GetFishDataAndBuild( b build.Builder ) {
     shark_count, _ = strconv.Atoi( shark_count_str )
     //b.BuildCell( &shark.Shark{}, shark_count )
     */
+}
+
+func (c *Console) BuildAreaAndCells(b build.Builder) {
+
 }

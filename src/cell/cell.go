@@ -14,7 +14,7 @@ const (
 )
 
 type Celler interface {
-    DoAction( a Areaer )
+    DoAction( c Celler )
     GetX() int
     GetY() int
     SetX( int )
@@ -182,8 +182,13 @@ func ( c *Cell ) GetLiveCicle() int {
     return c.live_cicle
 }
 
-func ( c *Cell ) DoAction( a Areaer ) {
-    return
+func (c *Cell) DoAction( celler Celler ) {
+    switch celler.(type) {
+        case *Cell:
+            return
+    }
+
+    celler.IncrementLiveCicle()
 }
 
 func ( c *Cell ) IsEmptyCell( celler Celler ) bool {

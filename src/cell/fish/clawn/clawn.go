@@ -35,9 +35,8 @@ func ( c *Clawn ) Init() {
     c.SetConsoleCellSign( StringConsoleCell )
 }
 
-func ( c *Clawn ) DoAction( a cell.Areaer ) {
-	c.IncrementLiveCicle()
-	//c.Cell.DoAction(a, c)
+func (c *Clawn) DoAction( celler cell.Celler ) {
+	c.Cell.DoAction(c)
 	c.Move()
 	/*x := c.GetX()
 	if x > 0 {

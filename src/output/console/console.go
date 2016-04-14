@@ -10,8 +10,8 @@ type Console struct {
 
 }
 
-func New() Console {
-	return Console{}
+func New() *Console {
+	return &Console{}
 }
 
 func ( c *Console ) DoOutput( inputer input.GetInputer ) {
@@ -38,3 +38,4 @@ func ( c *Console ) DrawArea( a *area.Area ) {
 	}
 	//fmt.Println()
 }
+

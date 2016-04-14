@@ -3,6 +3,7 @@ package line
 import (
 //"../../../area"
     "../../../strategy"
+    "../../../history/move"
 )
 
 type Line struct {
@@ -12,18 +13,37 @@ type Line struct {
 func (l *Line) Move( c strategy.Celler ) {
     middle_area := int( l.GetAreaWidth() / 2 )
     x := c.GetX()
+    last_move := move.GetLast(c)
+    var not_to_right, not_to_left, not_to_up, not_to_dawn bool
+    if last_move != nil {
+        if last_move.GetFromX() != last_move.GetToX() {
+            if last_move.GetFromX() < last_move.GetToX() {
+                not_to_left = true
+            } else {
+                not_to_right = true
+            }
+        } else {
+            if last_move.GetFromY() < last_move.GetToY() {
+                not_to_up = true
+            } else {
+                not_to_dawn = true
+            }
+        }
+    }
     if x < middle_area {
-       if c.MoveRight() == false {
+       if not_to_right || !c.MoveRight() {
            switch {
-                case c.MoveUp() == true:
-                case c.MoveDawn() == true:
+                case !not_to_up && c.MoveUp():
+                case !not_to_dawn && c.MoveDawn():
+                case !not_to_left && c.MoveLeft():
            }
        }
     } else if x > middle_area {
-        if c.MoveLeft() == false {
+        if not_to_left || !c.MoveLeft() {
             switch {
-                case c.MoveUp() == true:
-                case c.MoveDawn() == true:
+                case !not_to_up && c.MoveUp():
+                case !not_to_dawn && c.MoveDawn():
+                case !not_to_right && c.MoveRight():
             }
         }
     }

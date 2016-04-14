@@ -3,7 +3,6 @@ package shark
 import (
 	"../../../"
 	"fmt"
-	"../../../../history/move"
 )
 
 const (
@@ -35,10 +34,10 @@ func ( s *Shark ) Init() {
     s.SetConsoleCellSign(StringConsoleCell)
 }
 
-func ( s *Shark ) DoAction( a cell.Areaer ) {    
-	s.IncrementLiveCicle()
-	s.Move()
-
+func (s *Shark ) DoAction( c cell.Celler ) {
+	s.Cell.DoAction(s)
+	s.Move(c)
+/*
 	history_first_step := move.GetLast(s)
     s.Move()
 	history_second_step := move.GetLast(s)
@@ -59,7 +58,14 @@ func ( s *Shark ) DoAction( a cell.Areaer ) {
 			}
 		}
 	}
+	*/
 }
+
+func (s *Shark ) Move( c cell.Celler ) {
+	s.Cell.Move()
+	s.Cell.Move()
+}
+
 
 func ( s *Shark ) String2Console() string {
 	return fmt.Sprintf( StringConsoleFormatCell, s.GetConsoleCellSign() )

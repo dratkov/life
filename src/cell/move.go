@@ -14,7 +14,6 @@ func ( c *Cell ) Move() {
 
 func ( c *Cell ) DoMove( target_x, target_y int ) {
     var x, y = c.GetX(), c.GetY()
-    //area := c.GetArea()
     target_cell := area.GetCell( target_x, target_y )
     c.SetX( target_x )
     c.SetY( target_y )
@@ -25,7 +24,6 @@ func ( c *Cell ) DoMove( target_x, target_y int ) {
 
 func ( c *Cell ) MoveLeft() bool {
     target_x := c.GetX() - 1
-    //area := c.GetArea()
     if target_x == -1 {
         return false
     }
@@ -41,7 +39,6 @@ func ( c *Cell ) MoveLeft() bool {
 
 func ( c *Cell ) MoveUp() bool {
     target_y := c.GetY() - 1
-    //area := c.GetArea()
     if target_y == -1 {
         return false
     }
@@ -57,7 +54,6 @@ func ( c *Cell ) MoveUp() bool {
 
 func ( c *Cell ) MoveRight() bool {
     target_x := c.GetX() + 1
-    //area := c.GetArea()
     if target_x == int(area.GetWidth()) {
         return false
     }
@@ -73,7 +69,6 @@ func ( c *Cell ) MoveRight() bool {
 
 func ( c *Cell ) MoveDawn() bool {
     target_y := c.GetY() + 1
-    //area := c.GetArea()
     if target_y == int(area.GetHeight()) {
         return false
     }

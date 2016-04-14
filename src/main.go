@@ -14,7 +14,7 @@ func  main() {
     l := log.New()
     defer l.Destruct()
     in := input.New()
-    in.GetData()
+    in.InitFromSource()
     build := in.GetBuild()
     area := build.GetArea()
     //strategy := strategy.New( area )

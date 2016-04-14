@@ -121,7 +121,7 @@ func ( a *Area ) NextTime() {
 				continue
 			}
 			if cell.GetIsDoneAction() == false {
-				cell.DoAction(a)
+				cell.DoAction(cell)
 				cell.SetIsDoneAction(true)
 				cells = append(cells, cell)
 			}

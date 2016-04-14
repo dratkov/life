@@ -13,6 +13,7 @@ type Celler interface {
 	MoveUp() bool
 	MoveRight() bool
 	MoveDawn() bool
+	GetID() uint
 }
 
 type Strategy struct {
