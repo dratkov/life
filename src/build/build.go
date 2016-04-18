@@ -20,12 +20,12 @@ type Builder interface {
     BuildCell( interface{}, int )
 }
 
-func New() Build {
-    return Build{}
+func NewBuilder() *Build {
+    return &Build{}
 }
 
 func ( b *Build ) BuildArea( width, height uint ) {
-    b.area = area.New( width, height )
+    b.area = area.NewArea( width, height )
     cell.SetArea(b.area)
     b.FillArea()
 }
@@ -46,19 +46,23 @@ func ( b *Build ) BuildCell( c interface{}, count int ) {
             x, y := free_cell.GetX(), free_cell.GetY()
             switch c.(type) {
                 case clawn.Clawn:
-                    cell_general = clawn.New(x, y)
+                    cell_general = clawn.NewClawn(x, y)
                     ms := random.New()
                     move_strategy = &ms
                 case shark.Shark:
-                    cell_general = shark.New(x, y)
+                    cell_general = shark.NewShark(x, y)
                     ms := line.New( area.GetWidth() )
                     move_strategy = &ms
             }
             cell_general.Init()
-            cell_general.SetStrategy( strategy.New( move_strategy ) )
+            cell_general.SetStrategy( strategy.NewStrategy( move_strategy ) )
             area.AddCell( cell_general )
+
+            //return cell_general
         }
     }
+
+    //return nil
 }
 
 func ( b Build ) FillArea() {
@@ -66,8 +70,8 @@ func ( b Build ) FillArea() {
     height, width := area.GetHeight(), area.GetWidth()
     for i := 0; i < int(height); i++ {
         for j := 0; j < int(width); j++ {
-            cell_el := cell.New( j, i )
-            area.AddCell( &cell_el )
+            cell_el := cell.NewCell( j, i )
+            area.AddCell( cell_el )
         }
     }
 }

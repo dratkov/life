@@ -41,7 +41,7 @@ type ShartType struct {
 	CellCount
 }
 
-func New(file_name *string) *JSON {
+func NewJSON(file_name *string) *JSON {
 	j := &JSON{}
 	j.file_name = file_name
 	file, e := ioutil.ReadFile( *file_name )

@@ -12,7 +12,7 @@ type LUA struct {
     script_name *string
 }
 
-func New(script_name *string) *LUA  {
+func NewLua(script_name *string) *LUA  {
     l := &LUA{}
     l.lua_state = lua.NewState()
     l.script_name = script_name
@@ -38,6 +38,10 @@ func (l *LUA) BuildAreaAndCells(b build.Builder) {
         lTClawn := LClawn.(*lua.LTable)
         lCount := L.GetField(lTClawn, "count")
         b.BuildCell(clawn.Clawn{}, int(lua.LVAsNumber(lCount)))
+        //lMaxLiveCycle := L.GetField(lTClawn, "max_live_cycle")
+        //if max_live_cycle := int(lua.LVAsNumber(lMaxLiveCycle)); max_live_cycle > 0 {
+            //cell.SetMaxLiveCycle(max_live_cycle, 0)
+        //}
     }
 
     if LShark := L.GetGlobal("shark"); LShark.Type() == lua.LTTable {
@@ -45,6 +49,4 @@ func (l *LUA) BuildAreaAndCells(b build.Builder) {
         lCount := L.GetField(lTShark, "count")
         b.BuildCell(shark.Shark{}, int(lua.LVAsNumber(lCount)))
     }
-    //b.BuildCell(shark.Shark{}, 20)
-
 }

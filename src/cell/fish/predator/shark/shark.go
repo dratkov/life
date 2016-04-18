@@ -8,16 +8,16 @@ import (
 const (
 	StringConsoleFormatCell string = "\033[34m%s\033[39m"
 	StringConsoleCell string = "-"
-	MaxLiveCicle int = 100
-	MaxLiveCicleDeltaPercent int = 17
+	MaxLiveCycle int = 100
+	MaxLiveCycleDeltaPercent int = 17
 )
 
 type Shark struct {
-	cell.Cell
+	*cell.Cell
 }
 
-func New( x int, y int ) *Shark {
-	s := &Shark{ cell.New( x, y ) }
+func NewShark( x int, y int ) *Shark {
+	s := &Shark{ cell.NewCell( x, y ) }
 
 	return s
 }
@@ -30,7 +30,7 @@ func ( s *Shark ) New( x int, y int ) cell.Celler {
 }
 
 func ( s *Shark ) Init() {
-    s.SetMaxLiveCicle( MaxLiveCicle, MaxLiveCicleDeltaPercent )
+    s.SetMaxLiveCycle( MaxLiveCycle, MaxLiveCycleDeltaPercent )
     s.SetConsoleCellSign(StringConsoleCell)
 }
 

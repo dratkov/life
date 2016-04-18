@@ -9,8 +9,8 @@ import (
 
 const (
     StringConsoleCell string = " "
-    MaxLiveCicle int = -1
-    MaxLiveCicleDeltaPercent int = 0
+    MaxLiveCycle int = -1
+    MaxLiveCycleDeltaPercent int = 0
 )
 
 type Celler interface {
@@ -22,15 +22,14 @@ type Celler interface {
     SetID(uint)
     GetID() uint
     String2Console() string
-    New( int, int ) Celler
     IsEmptyCell( Celler ) bool
-    IncrementLiveCicle()
+    IncrementLiveCycle()
     GetIsDead() bool
-    GetMaxLiveCicle() int
-    GetLiveCicle() int
+    GetMaxLiveCycle() int
+    SetMaxLiveCycle(int, int)
+    GetLiveCycle() int
     Init()
-    SetStrategy( strategy.Strategy )
-    //GetArea() Areaer
+    SetStrategy( *strategy.Strategy )
     GetIsDoneAction() bool
     SetIsDoneAction(bool)
 }
@@ -45,16 +44,16 @@ type Areaer interface {
 
 type Cell struct {
     x, y int
-    live_cicle, max_live_cicle int
+    live_cycle, max_live_cycle int
     is_dead bool
     console_cell_sign string
-    strategy strategy.Strategy
+    strategy *strategy.Strategy
     is_done_action bool
     id uint
 }
 
-func New( x int, y int ) Cell {
-    c := Cell{ x: x, y: y }
+func NewCell( x int, y int ) *Cell {
+    c := &Cell{ x: x, y: y }
     c.SetIsDead( false )
     c.SetConsoleCellSign( StringConsoleCell )
     max_cell_id := area.GetMaxCellID()
@@ -64,15 +63,8 @@ func New( x int, y int ) Cell {
     return c
 }
 
-func ( c *Cell ) New( x int, y int ) Celler {
-    c.SetX( x )
-    c.SetY( y )
-
-    return c
-}
-
 func ( c *Cell ) Init() {
-    c.SetMaxLiveCicle( MaxLiveCicle, MaxLiveCicleDeltaPercent )
+    c.SetMaxLiveCycle( MaxLiveCycle, MaxLiveCycleDeltaPercent )
     c.SetConsoleCellSign( StringConsoleCell )
     c.SetIsDoneAction(false)
 }
@@ -115,11 +107,11 @@ func GetArea() Areaer {
     return area
 }
 
-func ( c *Cell ) GetStrategy() strategy.Strategy {
+func ( c *Cell ) GetStrategy() *strategy.Strategy {
     return c.strategy
 }
 
-func ( c *Cell ) SetStrategy( strategy strategy.Strategy ) {
+func ( c *Cell ) SetStrategy( strategy *strategy.Strategy ) {
     c.strategy = strategy
 }
 
@@ -127,29 +119,29 @@ func ( c *Cell ) SetY( y int ) {
     c.y = y
 }
 
-func ( c *Cell ) IncrementLiveCicle() {
-    if c.GetMaxLiveCicle() < 0 {
+func ( c *Cell ) IncrementLiveCycle() {
+    if c.GetMaxLiveCycle() < 0 {
         return
     }
-    if c.GetLiveCicle() == c.GetMaxLiveCicle() {
+    if c.GetLiveCycle() == c.GetMaxLiveCycle() {
         c.SetIsDead( true )
         return
     }
-    c.SetLiveCicle( c.GetLiveCicle() + 1 )
+    c.SetLiveCycle( c.GetLiveCycle() + 1 )
 }
 
-func ( c *Cell ) SetMaxLiveCicle( max_live_cicle, max_live_cicle_delta_percent int ) {
-    if max_live_cicle < 0 {
-        c.max_live_cicle = max_live_cicle
+func ( c *Cell ) SetMaxLiveCycle( max_live_cycle, max_live_cycle_delta_percent int ) {
+    if max_live_cycle < 0 {
+        c.max_live_cycle = max_live_cycle
         return
     }
     r := rand.New(rand.NewSource(time.Now().UnixNano()))
-    delta := float32(max_live_cicle_delta_percent) / 100 * float32(max_live_cicle)
+    delta := float32(max_live_cycle_delta_percent) / 100 * float32(max_live_cycle)
     rand_delta := r.Intn( int( delta ) )
     if r.Intn( 2 ) == 0 {
-        c.max_live_cicle = max_live_cicle + rand_delta
+        c.max_live_cycle = max_live_cycle + rand_delta
     } else {
-        c.max_live_cicle = max_live_cicle - rand_delta
+        c.max_live_cycle = max_live_cycle - rand_delta
     }
 }
 
@@ -158,8 +150,8 @@ func ( c *Cell ) SetIsDead( is_dead bool ) {
     c.SetConsoleCellSign( "x" )
 }
 
-func ( c *Cell ) SetLiveCicle( next_live_cicle int ) {
-    c.live_cicle = next_live_cicle
+func ( c *Cell ) SetLiveCycle( next_live_cycle int ) {
+    c.live_cycle = next_live_cycle
 }
 
 func ( c *Cell ) SetConsoleCellSign( console_cell_sign string ) {
@@ -174,12 +166,12 @@ func ( c *Cell ) GetConsoleCellSign() string {
     return c.console_cell_sign
 }
 
-func ( c *Cell ) GetMaxLiveCicle() int {
-    return c.max_live_cicle
+func ( c *Cell ) GetMaxLiveCycle() int {
+    return c.max_live_cycle
 }
 
-func ( c *Cell ) GetLiveCicle() int {
-    return c.live_cicle
+func ( c *Cell ) GetLiveCycle() int {
+    return c.live_cycle
 }
 
 func (c *Cell) DoAction( celler Celler ) {
@@ -188,7 +180,7 @@ func (c *Cell) DoAction( celler Celler ) {
             return
     }
 
-    celler.IncrementLiveCicle()
+    celler.IncrementLiveCycle()
 }
 
 func ( c *Cell ) IsEmptyCell( celler Celler ) bool {

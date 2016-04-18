@@ -41,8 +41,8 @@ func (s *Strategy) Move( c Celler ) {
 	move_strateger.Move(c)
 }
 
-func New( move_strategy MoveStrateger ) Strategy {
-	strategy := Strategy{}
+func NewStrategy( move_strategy MoveStrateger ) *Strategy {
+	strategy := &Strategy{}
 	strategy.SetMoveStrateger( move_strategy )
 
 	return strategy

@@ -9,16 +9,16 @@ import (
 const (
 	StringConsoleFormatCell string = "\033[31m%s\033[39m"
 	StringConsoleCell string = "."
-	MaxLiveCicle int = 40
-	MaxLiveCicleDeltaPercent int = 20
+	MaxLiveCycle int = 40
+	MaxLiveCycleDeltaPercent int = 20
 )
 
 type Clawn struct {
-	cell.Cell
+	*cell.Cell
 }
 
-func New( x int, y int ) *Clawn {
-	c := &Clawn{ cell.New( x, y ) }
+func NewClawn( x int, y int ) *Clawn {
+	c := &Clawn{ cell.NewCell( x, y ) }
 
 	return c
 }
@@ -31,7 +31,7 @@ func ( c *Clawn ) New( x int, y int ) cell.Celler {
 }
 
 func ( c *Clawn ) Init() {
-    c.SetMaxLiveCicle( MaxLiveCicle, MaxLiveCicleDeltaPercent )
+    c.SetMaxLiveCycle( MaxLiveCycle, MaxLiveCycleDeltaPercent )
     c.SetConsoleCellSign( StringConsoleCell )
 }
 

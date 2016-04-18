@@ -8,10 +8,11 @@ import (
 	//"fmt"
 	"./file/json"
 	"./lua"
+	//"../cell"
 )
 
 type Input struct {
-	build build.Build
+	build *build.Build
 	console console.Console
 	json json.JSON
 	lua lua.LUA
@@ -25,12 +26,12 @@ type Initer interface {
 	BuildAreaAndCells(build.Builder)
 }
 
-func ( input *Input ) GetBuild() build.Build {
+func ( input *Input ) GetBuild() *build.Build {
 	return input.build
 }
 
-func New() Input {
-	return Input{ build: build.New() }
+func NewInput() Input {
+	return Input{ build: build.NewBuilder() }
 }
 
 /*
@@ -54,9 +55,9 @@ func (input *Input) InitFromSource()  {
 	var initer Initer
 	switch {
 	case flagLUAScript != "":
-		initer = lua.New(&flagLUAScript)
+		initer = lua.NewLua(&flagLUAScript)
 	case flagJSONFile != "":
-		initer = json.New(&flagJSONFile)
+		initer = json.NewJSON(&flagJSONFile)
 	default:
 		initer = console.New()
 	}
@@ -70,4 +71,6 @@ func (in *Input) BuildArea( width, height uint ) {
 
 func (in *Input) BuildCell( cell interface{}, count int ) {
 	in.build.BuildCell( cell, count )
+
+	//return c
 }

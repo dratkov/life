@@ -12,8 +12,8 @@ type Output struct {
 	console console.Console
 }
 
-func New( input input.Input ) Output {
-	return Output{ input: input }
+func NewOutput( input input.Input ) *Output {
+	return &Output{ input: input }
 }
 
 func ( o *Output ) GetInput() input.Input {

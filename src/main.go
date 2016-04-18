@@ -13,13 +13,13 @@ import (
 func  main() {
     l := log.New()
     defer l.Destruct()
-    in := input.New()
+    in := input.NewInput()
     in.InitFromSource()
     build := in.GetBuild()
     area := build.GetArea()
     //strategy := strategy.New( area )
 
-    out := output.New( in )
+    out := output.NewOutput( in )
 
     for i := 0; i < 3000; i++ {
         out.DoOutput()

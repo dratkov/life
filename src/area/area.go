@@ -25,7 +25,7 @@ type Areaer interface {
 
 var area_singletone *Area = nil
 
-func New( width, height uint ) *Area {
+func NewArea( width, height uint ) *Area {
 	if area_singletone != nil {
 		return area_singletone
 	}
@@ -83,8 +83,8 @@ func ( a *Area ) DeleteCell( to_delete_cell cell.Celler ) {
 	for idx := range a.celler {
 		c := a.celler[ idx ]
 		if c.GetX() == x && c.GetY() == y {
-			new_cell := cell.New( c.GetX(), c.GetY() )
-			a.celler[ idx ] = &new_cell
+			new_cell := cell.NewCell( c.GetX(), c.GetY() )
+			a.celler[ idx ] = new_cell
 			a.SetLiveCellCount( a.GetLiveCellCount() - 1 )
 		}
 		history.DeleteActions(c)
