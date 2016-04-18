@@ -56,6 +56,6 @@ func NewJSON(file_name *string) *JSON {
 
 func ( jsontype *JSON ) BuildAreaAndCells( b build.Builder ) {
     b.BuildArea( jsontype.Life.Area.Width, jsontype.Life.Area.Height )
-    b.BuildCell( clawn.Clawn{}, jsontype.Life.Cells.Clawn.Count )
-    b.BuildCell( shark.Shark{}, jsontype.Life.Cells.Shark.Count )
+    b.BuildCells( clawn.Clawn{}, jsontype.Life.Cells.Clawn.Count )
+    b.BuildCells( shark.Shark{}, jsontype.Life.Cells.Shark.Count )
 }

@@ -17,7 +17,8 @@ type Build struct {
 
 type Builder interface {
     BuildArea( uint, uint )
-    BuildCell( interface{}, int )
+    BuildCell( interface{} ) cell.Celler
+    BuildCells( interface{}, int )
 }
 
 func NewBuilder() *Build {
@@ -36,33 +37,37 @@ func ( b *Build ) GetArea() *area.Area {
     return a
 }
 
-func ( b *Build ) BuildCell( c interface{}, count int ) {
+func ( b *Build ) BuildCell( c interface{} ) cell.Celler {
     area := b.GetArea()
-    for i := 0; i < count; i++ {
-        var free_cell = area.GetRandFreeCell()
-        if free_cell != nil {
-            var cell_general cell.Celler
-            var move_strategy strategy.MoveStrateger
-            x, y := free_cell.GetX(), free_cell.GetY()
-            switch c.(type) {
-                case clawn.Clawn:
-                    cell_general = clawn.NewClawn(x, y)
-                    ms := random.New()
-                    move_strategy = &ms
-                case shark.Shark:
-                    cell_general = shark.NewShark(x, y)
-                    ms := line.New( area.GetWidth() )
-                    move_strategy = &ms
-            }
-            cell_general.Init()
-            cell_general.SetStrategy( strategy.NewStrategy( move_strategy ) )
-            area.AddCell( cell_general )
-
-            //return cell_general
+    var free_cell = area.GetRandFreeCell()
+    if free_cell != nil {
+        var cell_general cell.Celler
+        var move_strategy strategy.MoveStrateger
+        x, y := free_cell.GetX(), free_cell.GetY()
+        switch c.(type) {
+        case clawn.Clawn:
+            cell_general = clawn.NewClawn(x, y)
+            ms := random.New()
+            move_strategy = &ms
+        case shark.Shark:
+            cell_general = shark.NewShark(x, y)
+            ms := line.New( area.GetWidth() )
+            move_strategy = &ms
         }
+        cell_general.Init()
+        cell_general.SetStrategy( strategy.NewStrategy( move_strategy ) )
+        area.AddCell( cell_general )
+
+        return cell_general
     }
 
-    //return nil
+    return nil
+}
+
+func ( b *Build ) BuildCells( c interface{}, count int ) {
+    for i := 0; i < count; i++ {
+       b.BuildCell(c)
+    }
 }
 
 func ( b Build ) FillArea() {

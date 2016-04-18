@@ -8,7 +8,7 @@ import (
 	//"fmt"
 	"./file/json"
 	"./lua"
-	//"../cell"
+	"../cell"
 )
 
 type Input struct {
@@ -69,8 +69,12 @@ func (in *Input) BuildArea( width, height uint ) {
 	in.build.BuildArea( width, height )
 }
 
-func (in *Input) BuildCell( cell interface{}, count int ) {
-	in.build.BuildCell( cell, count )
+func (in *Input) BuildCells( cell interface{}, count int ) {
+	in.build.BuildCells( cell, count )
+}
 
-	//return c
+func (in *Input) BuildCell( cell interface{} ) cell.Celler {
+	c := in.build.BuildCell( cell )
+
+	return c
 }

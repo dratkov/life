@@ -131,7 +131,7 @@ func ( c *Cell ) IncrementLiveCycle() {
 }
 
 func ( c *Cell ) SetMaxLiveCycle( max_live_cycle, max_live_cycle_delta_percent int ) {
-    if max_live_cycle < 0 {
+    if max_live_cycle < 0 || max_live_cycle_delta_percent <= 0 {
         c.max_live_cycle = max_live_cycle
         return
     }

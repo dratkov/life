@@ -21,7 +21,7 @@ func  main() {
 
     out := output.NewOutput( in )
 
-    for i := 0; i < 3000; i++ {
+    for true {
         out.DoOutput()
         //fmt.Println( area, "++" )
         if area.GetLiveCellCount() == 0 {
