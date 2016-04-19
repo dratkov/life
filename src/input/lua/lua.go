@@ -37,14 +37,14 @@ func (l *LUA) BuildAreaAndCells(b build.Builder) {
     if LClawnFactory := L.GetGlobal("clawn_factory"); LClawnFactory.Type() == lua.LTTable {
         lTClawnFactory := LClawnFactory.(*lua.LTable)
         for i := 1; i < lTClawnFactory.Len(); i++ {
-            clawn := b.BuildCell(clawn.Clawn{})
+            c := b.BuildCell(clawn.Clawn{})
             LClawn := lTClawnFactory.RawGetInt(i)
             if LClawn.Type() != lua.LTTable {
                 continue
             }
             lMaxLiveCycle := L.GetField(LClawn, "max_live_cycle")
             if max_live_cycle := int(lua.LVAsNumber(lMaxLiveCycle)); max_live_cycle > 0 {
-                clawn.SetMaxLiveCycle(max_live_cycle, 0)
+                c.SetMaxLiveCycle(max_live_cycle, clawn.MaxLiveCycleDeltaPercent)
             }
         }
     }
@@ -52,14 +52,14 @@ func (l *LUA) BuildAreaAndCells(b build.Builder) {
     if LSharkFactory := L.GetGlobal("shark_factory"); LSharkFactory.Type() == lua.LTTable {
         lTSharkFactory := LSharkFactory.(*lua.LTable)
         for i := 1; i < lTSharkFactory.Len(); i++ {
-            shark := b.BuildCell(shark.Shark{})
+            s := b.BuildCell(shark.Shark{})
             LShark := lTSharkFactory.RawGetInt(i)
             if LShark.Type() != lua.LTTable {
                 continue
             }
             lMaxLiveCycle := L.GetField(LShark, "max_live_cycle")
             if max_live_cycle := int(lua.LVAsNumber(lMaxLiveCycle)); max_live_cycle > 0 {
-                shark.SetMaxLiveCycle(max_live_cycle, 0)
+                s.SetMaxLiveCycle(max_live_cycle, shark.MaxLiveCycleDeltaPercent)
             }
         }
     }
